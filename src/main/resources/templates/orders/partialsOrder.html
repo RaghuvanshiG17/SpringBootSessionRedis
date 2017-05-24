@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" layout:decorator="layout/sitelayout">
+<head>
+<title>Session based Shopfront</title>
+<link rel="stylesheet" th:href="@{/webjars/bootstrap/3.1.1/css/bootstrap.min.css}"
+	href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" />
+<link rel="stylesheet" th:href="@{/css/application.css}" href="../../static/css/application.css" />
+<script  th:src="@{/webjars/jquery/2.1.0/jquery.js}" src="jquery.js" > </script>
+<script  th:src="@{/webjars/bootstrap/3.1.1/js/bootstrap.js}" 
+		src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.js" > </script>
+
+</head>
+<body>
+	<div class="navbar navbar-default navbar-fixed-top" role="navigation" th:replace="fragments/header :: header">
+		<div class="container-fluid">
+			 <div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+				  <span class="sr-only">Toggle navigation</span>
+				  <span class="icon-bar"></span>
+				  <span class="icon-bar"></span>
+				  <span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">Session based Shopfront for Demo - will actually come from fragment</a>
+			</div>
+			<div class="navbar-collapse collapse">
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="#">Settings for Demo</a></li>
+					<li><a href="#">Profile</a></li>
+					<li><a href="#">Help</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="container-fluid">
+		<div th:fragment="content">			
+			<div class="row">
+				<div class="col-xs-4">	
+				<h3>Items in Cart</h3>
+				</div>	
+				<div class="col-xs-4">
+					<div class="row" ng-if="statusmessage != ''">
+						<div class="col-xs-12">
+							<p class="bg-success text-center">
+								<span ng-bind="statusmessage"></span>
+							</p>
+						</div>
+					</div>
+					<div class="row" ng-if="errormessage != ''">
+						<div class="col-xs-12">
+							<p class="bg-danger text-center">
+								<span ng-bind="errormessage"></span>
+							</p>
+						</div>
+					</div>
+				</div>							
+				
+				<div class="col-xs-4">
+					<ul class="nav nav-pills navbar-right">
+						<li><a ui-sref="home" class="btn btn-default"><span class="glyphicon glyphicon-home"></span> Home</a></li>
+						<li><a ui-sref="order" class="btn btn-danger"><span class="badge">{{productsCountInCart}}</span> <span class="glyphicon glyphicon-shopping-cart"></span>Shopping Cart</a></li>
+					</ul>				
+				</div>					
+			</div>			
+			<div class="row">	
+				<div class="col-xs-12">
+					<div class="row">			
+						<div class="table-responsive">
+							<table class="table table-striped">
+								<thead>
+									<tr>
+										<th width="20%">Product Name</th>
+										<th width="30%">Product Description</th>
+										<th width="30%">Quantity</th>
+										<th></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="orderProduct in orderProducts">
+										<td>{{orderProduct.product.name}}</td>
+										<td>{{orderProduct.product.description}}</td>
+										<td>
+											<div class="form-inline">
+											<div class="form-group">
+												<input type="text" name="purchasedQuantity" ng-model="orderProduct.purchasedQuantity"/>
+											</div>
+											<button class="btn btn-sm btn-default" ng-click="updateOrderProduct(orderProduct)">Update</button>
+											</div>
+										</td>
+										<td><button class="btn btn-sm btn-danger" ng-click="deleteOrderProduct(orderProduct)">Delete</button></td>
+									</tr>
+									<tr ng-hide="orderProducts.length"><td colspan="4">No products in Cart!</td></tr>
+								</tbody>
+							</table>
+						</div>
+					</div>	
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
